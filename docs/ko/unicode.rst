@@ -1,107 +1,74 @@
-Unicode in Flask
+Flask에서의 유니코드
 ================
+Jinja2와 Werkzeug처럼, Flask 역시 텍스트를 처리할 때 유니코드를 사용합니다. 사실 이들 라이브러리뿐만 아니라 Python으로 작성된 웹 관련 라이브러리들 대부분이 텍스트 처리에 유니코드를 사용하고 있죠. 유니코드가 무엇인지 잘 모르겠다면, 다음 게시글을 읽어 보는 걸 추천합니다. `The Absolute Minimum Every Software Developer
+Absolutely, Positively Must Know About Unicode and Character Sets(영문)
+<http://www.joelonsoftware.com/articles/Unicode.html>`_.  이 문서는 여러분들이 편안한 유니코드 관련 경험을 할 수 있도록 가장 기본적인 부분만을 다루고 있습니다.
 
-Flask like Jinja2 and Werkzeug is totally Unicode based when it comes to
-text.  Not only these libraries, also the majority of web related Python
-libraries that deal with text.  If you don't know Unicode so far, you
-should probably read `The Absolute Minimum Every Software Developer
-Absolutely, Positively Must Know About Unicode and Character Sets
-<http://www.joelonsoftware.com/articles/Unicode.html>`_.  This part of the
-documentation just tries to cover the very basics so that you have a
-pleasant experience with Unicode related things.
+***역주:** UTF-8은 유니코드에 대응되는 문자 인코딩이지만, 유니코드 그 자체와는 다릅니다.*
 
-Automatic Conversion
+자동 변환
 --------------------
 
-Flask has a few assumptions about your application (which you can change
-of course) that give you basic and painless Unicode support:
+Flask는 여러분이 애플리케이션을 만들 때에 몇 가지 사항을 미리 상정해 둬서, 여러분이 간단하고 편안하게 유니코드에 대응할 수 있도록 설계되었습니다 (물론 변경 가능합니다): 
 
--   the encoding for text on your website is UTF-8
--   internally you will always use Unicode exclusively for text except
-    for literal strings with only ASCII character points.
--   encoding and decoding happens whenever you are talking over a protocol
-    that requires bytes to be transmitted.
+-   웹사이트의 인코딩이 UTF-8으로 이루어집니다
+-   ASCII 문자 영역에 들어가 있는 문자열을 제외하고는, 내부적으로 언제나 유니코드를 이용해 처리합니다.
+-	바이트 단위의 전송이 필요한 프로토콜 상에서의 통신을 진행할 때 인코딩과 디코딩이 발생합니다.
 
-So what does this mean to you?
 
-HTTP is based on bytes.  Not only the protocol, also the system used to
-address documents on servers (so called URIs or URLs).  However HTML which
-is usually transmitted on top of HTTP supports a large variety of
-character sets and which ones are used, are transmitted in an HTTP header.
-To not make this too complex Flask just assumes that if you are sending
-Unicode out you want it to be UTF-8 encoded.  Flask will do the encoding
-and setting of the appropriate headers for you.
+음, 이게 무슨 뜻일까요?
 
-The same is true if you are talking to databases with the help of
-SQLAlchemy or a similar ORM system.  Some databases have a protocol that
-already transmits Unicode and if they do not, SQLAlchemy or your other ORM
-should take care of that.
+HTTP는 바이트에 기반하고 있습니다. 이 프로토콜뿐만이 아니라, 서버에서 문서에 접근할 때 사용되는 시스템 (흔히 URL이나 URI라고 부릅니다)도 마찬가지입니다. 하지만, 일반적으로 HTTP 상에서 전송되는 HTML에서는 굉장히 다양한 문자 집합이 사용되고 있어서, 무슨 문자 집합이 사용되었는지에 대한 정보가 HTTP 헤더에 포함되어 전송됩니다. Flask는 이 모든 과정을 좀 간단하게 만들기 위해, 유니코드로 뭔가를 전송하는 경우 UTF-8로 인코딩하도록 해 뒀습니다. 이 경우 Flask가 자동으로 인코딩과 적절한 헤더를 설정해 줄 겁니다.
 
-The Golden Rule
+이는 SQLAlchemy같은 ORM 시스템을 이용해 데이터베이스에 접근할 때도 마찬가지입니다. 몇몇 데이터베이스는 유니코드를 사용해 전송하는 프로토콜을 채택하고 있지만, 그렇지 못한 경우엔 SQLAlchemy같은 ORM 차원에서 신경을 써 줘야 되겠지요.
+
+
+기본 규칙
 ---------------
+그러면, 경험 법칙입니다: 바이너리 데이터를 다루고 있는 게 아니라면, 유니코드를 사용하세요. Python 2.x 버전에서 유니코드를 사용한다는 것은 무엇을 의미하는 걸까요?
 
-So the rule of thumb: if you are not dealing with binary data, work with
-Unicode.  What does working with Unicode in Python 2.x mean?
+- 만약 ASCII 문자집합에 포함되는 문자만 사용한다면 (기본적인 숫자나, 움라우트같은 게 붙어 있지 않은 로마자) 그냥 일반 문자열 선언을 사용해도 됩니다. (예: ``'Hello World'``)
+- ASCII 문자집합에 포함되지 않은 문자를 표시할 때에는, 소문자 `u`를 앞에 붙혀 이 문자열이 유니코드라는 것을 표시해 둬야 합니다. (예: ``u'한글 中文 ニホンゴ Häagen-Dazs'``)
+- Python 소스코드에 비-유니코드 문자를 사용할 경우 Python에게 이 파일의 인코딩이 무엇인지 알려 줘야 합니다. 다시 한 번 말씀드리자면 이 때에는 UTF-8을 사용할 것을 권장합니다. Python 소스 코드 파일의 첫 번째 줄이나 두 번째 줄에 ``# -*- coding: utf-8 -*-``을 넣어 Python 인터프리터에게 무슨 인코딩을 사용하려고 하는지 일러둘 수 있습니다.
+- Jinja는 탬플릿 파일을 UTF-8로 디코드하도록 기본 설정되어 있습니다. 그러므로 사용하는 텍스트 편집기에서 UTF-8로 파일을 저장하는 것을 잊지 마세요.
 
--   as long as you are using ASCII charpoints only (basically numbers,
-    some special characters of latin letters without umlauts or anything
-    fancy) you can use regular string literals (``'Hello World'``).
--   if you need anything else than ASCII in a string you have to mark
-    this string as Unicode string by prefixing it with a lowercase `u`.
-    (like ``u'Hänsel und Gretel'``)
--   if you are using non-Unicode characters in your Python files you have
-    to tell Python which encoding your file uses.  Again, I recommend
-    UTF-8 for this purpose.  To tell the interpreter your encoding you can
-    put the ``# -*- coding: utf-8 -*-`` into the first or second line of
-    your Python source file.
--   Jinja is configured to decode the template files from UTF-8.  So make
-    sure to tell your editor to save the file as UTF-8 there as well.
-
-Encoding and Decoding Yourself
+스스로 하는 인코딩과 디코딩
 ------------------------------
 
-If you are talking with a filesystem or something that is not really based
-on Unicode you will have to ensure that you decode properly when working
-with Unicode interface.  So for example if you want to load a file on the
-filesystem and embed it into a Jinja2 template you will have to decode it
-from the encoding of that file.  Here the old problem that text files do
-not specify their encoding comes into play.  So do yourself a favour and
-limit yourself to UTF-8 for text files as well.
+파일 시스템같이, 보통 유니코드에 기반해서 설계된 게 아닌 무언가에 접근해야 할 때는, 유니코드 인터페이스를 이용하여 적절하게 디코드하였는지를 꼭 확인해야 합니다. 예를 들면, 파일시스템에서 파일을 하나 불러와 Jinja2 탬플릿으로 임베드하려고 하는 경우, 그 파일의 인코딩으로부터 파일을 적절하게 디코딩해야 합니다. 텍스트 파일이란 건 보통 자신의 인코딩을 따로 표시하지 않기 마련이니까요. 그러니 텍스트 파일을 만들 때에는 UTF-8로 인코딩하기로 여러분 스스로와 약속해 보세요.
 
-Anyways.  To load such a file with Unicode you can use the built-in
-:meth:`str.decode` method::
+여튼, 유니코드를 이용해서 파일을 불러오려면 내장된 
+:meth:`str.decode` 메소드를 사용할 수 있습니다::
 
     def read_file(filename, charset='utf-8'):
         with open(filename, 'r') as f:
             return f.read().decode(charset)
 
-To go from Unicode into a specific charset such as UTF-8 you can use the
-:meth:`unicode.encode` method::
+유니코드에서 UTF-8과 같은 특정 문자 집합으로 변환하려면 
+:meth:`unicode.encode` 메소드를 사용할 수 있습니다::
 
     def write_file(filename, contents, charset='utf-8'):
         with open(filename, 'w') as f:
             f.write(contents.encode(charset))
 
-Configuring Editors
+편집기 설정하기
 -------------------
+요즘은 대부분의 텍스트 편집기가 UTF-8로 저장하는 것을 기본값으로 두고 있지만, 경우에 따라 기본 설정이 되어 있지 않아 설정을 변경해야 하는 경우가 있을 수 있습니다. 아래에서 UTF-8로 파일을 저장하는 일반적인 방법을 안내해 드립니다.
 
-Most editors save as UTF-8 by default nowadays but in case your editor is
-not configured to do this you have to change it.  Here some common ways to
-set your editor to store as UTF-8:
 
--   Vim: put ``set enc=utf-8`` to your ``.vimrc`` file.
+-   Vim: ``.vimrc`` 파일에 ``set enc=utf-8``을 추가하세요.
 
--   Emacs: either use an encoding cookie or put this into your ``.emacs``
-    file::
+-   Emacs: 인코딩 쿠키를 이용하거나, ``.emacs``
+    파일에 다음 구문을 추가하세요::
 
         (prefer-coding-system 'utf-8)
         (setq default-buffer-file-coding-system 'utf-8)
 
 -   Notepad++:
 
-    1. Go to *Settings -> Preferences ...*
-    2. Select the "New Document/Default Directory" tab
-    3. Select "UTF-8 without BOM" as encoding
+    1. *설정 -> 환경 설정 ...*으로 이동합니다.
+    2. "새로운 문서/기본 디렉터리" 탭을 선택합니다.
+    3. 인코딩을 "UTF-8(BOM 없음)"으로 설정합니다.
 
-    It is also recommended to use the Unix newline format, you can select
-    it in the same panel but this is not a requirement.
+    
+    같은 패널에서 설정할 수 있는 유닉스 개행(改行) 포맷을 사용하는 것도 권장 사항이긴 하지만, 꼭 필요한 건 아닙니다.
