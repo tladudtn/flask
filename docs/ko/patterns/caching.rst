@@ -17,9 +17,9 @@
 캐시 설정하기
 -------------
 
-여러분은 :class:`~flask.Flask` 을 생성하는 방법과 유사하게 캐시 객체를 
-일단 생성하고 유지한다.  여러분이 개발 서버를 사용하고 있따면 여러분은
-:class:`~werkzeug.contrib.cache.SimpleCache` 객체를 생성할 수 있고, 
+여러분은 :class:`~flask.Flask` 을 생성하는 방법과 유사하게 캐시 객체를
+일단 생성하고 유지한다.  여러분이 개발 서버를 사용하고 있다면 여러분은
+:class:`~werkzeug.contrib.cache.SimpleCache` 객체를 생성할 수 있고,
 그 객체는 파이썬 인터프리터의 메모리에 캐시의 항목을 저장하는 간단한 캐시다::
 
     from werkzeug.contrib.cache import SimpleCache
@@ -48,7 +48,7 @@
 
 캐시에서 항목을 얻기 위해서는 문자열로 된 키 명으로 
 :meth:`~werkzeug.contrib.cache.BaseCache.get` 를 호출하면 된다. 캐시에 그 키에
-값이 있따면, 그 값이 반환된다.  없다면 `None`이 반환될 것이다::
+값이 있다면, 그 값이 반환된다.  없다면 `None`이 반환될 것이다::
 
     rv = cache.get('my-item')
 
