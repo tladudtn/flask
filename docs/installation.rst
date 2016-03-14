@@ -14,12 +14,9 @@ Jinja2 는 HTML 템플릿을 렌더링 하는 템플릿엔진이다.
 방법은 virtualenv을 사용하는 것이다. 그래서 먼저 virtualenv를 살펴보려 한다.
 
  
-Flask 설치를 시작하기 위해 파이썬 2.5 또는 상위 버전을 사용할 것이다. 
+Flask 설치를 시작하기 위해 파이썬 2.6 또는 상위 버전을 사용할 것이다. 
 그래서 최신 파이썬 2.x버전이 설치되어 있는 것을 확인해라. 
-이 글을 쓰는 시점에 WSGI 명세서는 아직 파이썬 3을 위해 마무리되지 않았다. 
-그래서 Flask는 파이썬 3.x 버전을 지원할 수 없다. 
-
-
+파이썬 3으로 Flask를 이용하려면 'Python 3 Support<http://flask.pocoo.org/docs/0.10/python3>'_를 참고해라.
 
 .. _virtualenv:
 
@@ -97,6 +94,10 @@ virtualenv를 설치할 수 있다. 다만, Windows 환경에서는 `sudo` 가 �
 (virtualenv이 활성화된 상태를 보여주기 위핸 당신의 쉘 프롬프트가 어떻게 변화 
 되는지 주목하라).
 
+그리고 만약 원래 실행환경으로 돌아가고 싶다면, 다음과 같이 실행한다.::
+
+    $ deactivate
+
 이제 당신은 다음의 명령어를 입력하여 활성화된 virtualenv 를 통해 Flask를 
 설치할 수 있다.::
 
@@ -141,46 +142,37 @@ git checkout을 사용할 수 있다. 어떤 방법을 사용하든, virtualenv�
 virtualenv안으로 가져오게 된다. 그다음에 ``git pull origin`` 을 통하여 최신
 버전으로 업데이트가 가능하다. 
 
-git을 사용하지 않고 최신 버전을 가져오는 방법은 다음과 같다.::
-
-    $ mkdir flask
-    $ cd flask
-    $ virtualenv venv --distribute
-    $ . venv/bin/activate
-    New python executable in venv/bin/python
-    Installing distribute............done.
-    $ pip install Flask==dev
-    ...
-    Finished processing dependencies for Flask==dev
-
 .. _windows-easy-install:
 
 
-Windows에서의 `pip` 와 `distribute`
+Windows에서의 `pip` 와 `setuptools`
 -----------------------------------
 
-Windows 환경에서는 `easy_install` 의 설치가 조금 복잡해 보인다. 하지만 그래도 그리
-어렵지 않다. 가장 쉬운 방법은 `distribute_setup.py`_ 를 다운로드 받아서 실행하는 것이다.
-다운로드 폴더를 열고 다운 받은 파일을 더블클릭한다.
+어쩔때는 *pip*, *setuptools*나 *virtualenv* 같은 파이썬 패키징 도구 설치가 조금 복잡해 보인다. 하지만 그래도 그리
+어렵지 않다. 필요한 두 개의 중요한 패키지는 setuptools과 pip이다. 이것들은 virtualenv와 같은 다른것들을 설치할 수 있게 해준다. 다행이도 이를 설치하기 위해 실행할 수 있는 두 개의 "부트스트랩 스크립트"가 있다.
 
-다음으로, `easy_install` 명령어를 `PATH` 에 실행경로로 추가하고 Python 설치 디렉토리의 
-Scripts의 경로도 실행경로에 추가하여야 한다. 이렇게 하려면, 바탕화면이나 시작메뉴의 `내컴퓨터` 
-아이콘을 마우스 오른쪽 버튼으로 클릭하여 나오는 메뉴에서 "등록정보"를 선택하여 실행한다.
-이제 해당 메뉴에서 "고급 시스템 설정"(Windows XP의 경우 "고급" 탭) 을 선택한다.
-다음으로 "환경 변수"를 선택한 후 "PATH" 를 클릭하여 "시스템 변수" 항목에 Python 설치 경로와
-Python의 Scripts 폴더이름을 실행경로로 등록한다. 주의할 점은 기존에 설정되어 있는 값과
-세미콜론(;)으로 구분되어져야 한다는 점이다. 설치된 Python 버전이 2.7이고 기본 경로에
-설치되었다면 다음과 같을 것이다.::
+둘 다 가지고 있지 않다면 'get-pip.py'가 당신의 컴퓨터에 이들을 둘 다 설치해 줄 것이다(ez_setup.py를 실행하지 않아도 된다).
 
-    ;C:\Python27\Scripts
+'get-pip.py'_
 
-마침내 당신은 해냈다! 이제 제대로 동작하는지 확인해 보자, 명령어 창을 열고 프롬프트에 
-``easy_install``. 만약 Windows Vista 혹은 Windows7 을 사용중이고 'User Account Control' 
-이 활성화 되어 있다면 관리자 권한으로 진행하여야 한다.
+최근 setuptools를 설치하고 싶다면 그 부트스트랩 파일을 이용할 수 있다.
 
-이제 당신은 ``easy_install`` 를 손에 넣었다! ``pip`` 를 설치해 보자::
+'ez_setup.py'_
 
-    > easy_install pip
+다운로드를 한 후에 더블클릭을 해라. 만약 이미 pip가 있다면, 다음과 같이 실행하여 업그레이드 할 수 있다.
 
+    > pip install --upgrade pip setuptools
 
-.. _distribute_setup.py: http://python-distribute.org/distribute_setup.py
+대부분의 경우, 명령 프롬프트를 키고 :command:`pip`와 :command:`python`을 칠 수 있기를 원하지만
+Windows에서는 수행되지 않을 것이다. 윈도우는 어디에 실행파일이 있는지 모르기 때문이다(시도해 볼 수는 있다!)
+
+이 문제를 해결하려면, 당신은 파이썬 설치 폴더로 이동할 수 있어야 한다(예 :file:`C:\Python27`), 그리고 :file:`Tools`, :file:`Scripts`로 이동하여 :file:`win_add2path.py` 파일을 찾아 실행한다. **새** 명령 프롬프트를 켜고 :command:`python` 입력으로 인터프리터를 불러올 수 있는지 확인한다.
+
+마지막으로, 아래와 같이 실행하여 `virtualenv`_를 간단하게 설치할 수 있다.
+
+    > pip install virtualenv
+
+위의 설치 지침을 따랐으면 이제 갈 길을 가면 된다.
+
+.. _get-pip.py: https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
+.. _ez_setup.py: https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
