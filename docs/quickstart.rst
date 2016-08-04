@@ -764,7 +764,7 @@ flashing system이란 기본적으로 요청의 끝과 바로 다음 요청에 �
 
 
 이런 경우 여러분은 여전히 수상한 어떤 일이 발생한 것을 로깅하기를 원할지도 모른다. 이런 
-상황에서 로걸ㄹ 사용할 수 있다. Flask 0.3부터 로거는 여러분이 사용할 수 있도록 미리 
+상황에서 로거를 사용할 수 있다. Flask 0.3부터 로거는 여러분이 사용할 수 있도록 미리 
 설정되어 있다. 
 
 아래 로그를 출력하는 예제가 있다. ::
@@ -773,7 +773,7 @@ flashing system이란 기본적으로 요청의 끝과 바로 다음 요청에 �
     app.logger.warning('A warning occurred (%d apples)', 42)
     app.logger.error('An error occurred')
 
-첨부된 :attr:`~flask.Flask.logger`는 표준 로깅 :class:`~logging.Logger` 이다. 더 
+첨부된 :attr:`~flask.Flask.logger` 는 표준 로깅 :class:`~logging.Logger` 이다. 더 
 많은 정보를 원하면 `logging
 documentation <http://docs.python.org/library/logging.html>`_ 문서를 참조해라. 
 
