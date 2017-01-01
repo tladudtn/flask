@@ -585,7 +585,7 @@ Storing cookies::
 --------------------
 
 사용자가 다른 엔드포인트로 redirect하기 위해서는 :func:`~flask.redirect` 함수를 
-사용하라. 에러콛를  가지고 일찍 요청을 중단하기를 원한다면 :func:`~flask.abort` 함수를 
+사용하라. 에러코드를  가지고 일찍 요청을 중단하기를 원한다면 :func:`~flask.abort` 함수를 
 사용하라::
 
 
