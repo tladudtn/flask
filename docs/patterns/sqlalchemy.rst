@@ -8,7 +8,7 @@ Flask에서 SQLAlchemy 사용하기
 사용하고 모델들을 분리된 모듈로 만드는 것이 독려된다(:ref:`larger-applications`).
 그것이 필수는 아니지만, 많은 부분에서 이해가 될만하다.
 
-There are four very common ways to use SQLAlchemy를 사용하는 매우 일반적인
+SQLAlchemy를 사용하는 매우 일반적인
 네가지 방식이 있다.  여기서 그것들을 각각 간략하게 설명할 것이다:
 
 Flask-SQLAlchemy 확장
@@ -55,7 +55,6 @@ SQLAlchemy에서 선언부(declarative) 확장은 SQLAlchemy를 사용하는 가
 모델들을 정의하기 위해, 위의 코드로 생성된 `Base` 클래스를 상속하면 된다.
 여러분이 왜 우리가 여기서 쓰레드를 신경쓰지 않아도 되는지 궁금하다면
 (위의 SQLite3 예제에서 :data:`~flask.g` 객체를 가지고 한 것 처럼): 
-that's because SQLAlchemy does that for us already with the :class:`~sqlalchemy.orm.scoped_session`.
 그것은 SQLAlchemy가 :class:`~sqlalchemy.orm.scoped_session` 을 가지고
 여러분을 위해서 이미 그러한 작업을 했기 때문이다.
 
