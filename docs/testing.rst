@@ -54,7 +54,7 @@ Flask는 Werkzeug 를 통해 테스트 :class:`~werkzeug.test.Client` 를 제공
     if __name__ == '__main__':
         unittest.main()
 
-:meth:`~unittest.TestCase.setUp` 함수의 코드는 새로운 테스트 클라이어트를
+:meth:`~unittest.TestCase.setUp` 함수의 코드는 새로운 테스트 클라이언트를
 생성하고 새로운 데이터베이스를 초기화 한다. 이 함수는 각각의 테스트 함수가
 실행되기 전에 먼저 호출된다. 테스트후 데이터베이스를 삭제하기 위해 
 :meth:`~unittest.TestCase.tearDown` 함수에서 파일을 닫고 파일시스템에서 
@@ -226,7 +226,7 @@ SQLite3는 파일시스템 기반이기 때문에 임시 데이터베이스를 �
 
 그러나 만약 테스트 요청 컨텍스트를 사용하는 경우 :meth:`~flask.Flask.before_request`  
 함수 와 :meth:`~flask.Flask.after_request` 는 자동으로 호출되지 않는다.
-반면에:meth:`~flask.Flask.teardown_request` 함수는 `with` 블럭에서 요청 컨텍스트를 
+반면에 :meth:`~flask.Flask.teardown_request` 함수는 `with` 블럭에서 요청 컨텍스트를 
 빠져나올때 실제로 실행된다. 
 만약 :meth:`~flask.Flask.before_request` 함수도 마찬가지로 호출되기를 원한다면,
 :meth:`~flask.Flask.preprocess_request` 를 직접 호출해야 한다.::
