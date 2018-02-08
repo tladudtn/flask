@@ -59,7 +59,7 @@ Virtualenv가 당신을 구해 줄것이다. virtualenv를 이용하여 Python�
     $ sudo pip install virtualenv
 
 
-위의 방법을 사용하면 당신의 시스템에 virtualenv가 설치 될걸이다. 아마도 당신의
+위의 방법을 사용하면 당신의 시스템에 virtualenv가 설치 될것이다. 아마도 당신의
 시스템에서 사용하는 package manager를 사용할 수 도 있다. 
 만약 당신이 우분투를 사용한다면 ::
 
